@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 namespace App\ServiceProvider\Adapter;
+
 use App\ServiceProvider\AbstractSmsAdapter;
 use App\ServiceProvider\AdapterException;
 

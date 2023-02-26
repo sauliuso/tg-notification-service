@@ -15,6 +15,9 @@ parameters:
     app.email_send_from_name: '%env(EMAIL_SEND_FROM_NAME)%'
     app.email_send_from_address: '%env(EMAIL_SEND_FROM_ADDRESS)%'
     app.email_default_subj: '%env(EMAIL_DEFAULT_SUBJ)%'
+    app.provider.twilio.account_sid: '%env(TWILIO_ACCOUNT_SID)%'
+    app.provider.twilio.auth_token: '%env(TWILIO_AUTH_TOKEN)%'
+    app.provider.twilio.phone_number: '%env(TWILIO_PHONE_NUMBER)%'
 
 services:
     # default configuration for services in *this* file
@@ -55,3 +58,9 @@ services:
             - '%app.email_send_from_name%'
             - '%app.email_send_from_address%'
             - '%app.email_default_subj%'
+
+    App\ServiceProvider\Adapter\TwilioSmsAdapter:
+        arguments:
+            - '%app.provider.twilio.account_sid%'
+            - '%app.provider.twilio.auth_token%'
+            - '%app.provider.twilio.phone_number%'

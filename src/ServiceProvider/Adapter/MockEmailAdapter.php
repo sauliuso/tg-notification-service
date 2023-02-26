@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 namespace App\ServiceProvider\Adapter;
+
 use App\ServiceProvider\AbstractEmailAdapter;
 
 final class MockEmailAdapter extends AbstractEmailAdapter
