@@ -11,6 +11,10 @@ parameters:
         email: '%env(CHANNEL_PROVIDERS_EMAIL)%'
         sms: '%env(CHANNEL_PROVIDERS_SMS)%'
         push: '%env(CHANNEL_PROVIDERS_PUSH)%'
+    app.sms_send_from_number: '%env(SMS_SEND_FROM_NUMBER)%'
+    app.email_send_from_name: '%env(EMAIL_SEND_FROM_NAME)%'
+    app.email_send_from_address: '%env(EMAIL_SEND_FROM_ADDRESS)%'
+    app.email_default_subj: '%env(EMAIL_DEFAULT_SUBJ)%'
 
 services:
     # default configuration for services in *this* file
@@ -41,3 +45,13 @@ services:
         arguments:
             - '%app.channels_enabled%'
             - '%app.channel_providers%'
+
+    App\ServiceProvider\Strategy\SmsStrategy:
+        arguments:
+            - '%app.sms_send_from_number%'
+
+    App\ServiceProvider\Strategy\EmailStrategy:
+        arguments:
+            - '%app.email_send_from_name%'
+            - '%app.email_send_from_address%'
+            - '%app.email_default_subj%'

@@ -37,8 +37,8 @@ final class Notification
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $provider = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $providerResponse = null;
+    #[ORM\Column(type: "json", nullable: true)]
+    private ?array $providerResponse = null;
 
     public function getId(): ?int
     {
@@ -117,12 +117,12 @@ final class Notification
         return $this;
     }
 
-    public function getProviderResponse(): ?string
+    public function getProviderResponse(): ?array
     {
         return $this->providerResponse;
     }
 
-    public function setProviderResponse(?string $providerResponse): self
+    public function setProviderResponse(?array $providerResponse): self
     {
         $this->providerResponse = $providerResponse;
 
@@ -134,5 +134,15 @@ final class Notification
         return $this
             ->setStatus(self::STATUS_ABORTED)
             ->setStatusMessage($message);
+    }
+
+    public function isPending(): bool
+    {
+        return $this->getStatus() === Notification::STATUS_PENDING;
+    }
+
+    public function isFailed(): bool
+    {
+        return $this->getStatus() === Notification::STATUS_FAILED;
     }
 }
