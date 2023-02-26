@@ -17,4 +17,5 @@ framework:
 
 
         routing:
-            'App\Message\ProcessSendNotificationRequest': async
+            App\Message\ProcessSendNotificationRequest: async
+            App\Message\SendNotification: async

@@ -12,7 +12,7 @@ final class User
 
     private ?string $phoneNumber;
 
-    public function __construct(int $id, ?string $email, ?string $phoneNumber)
+    public function __construct(int $id, ?string $email = null, ?string $phoneNumber = null)
     {
         $this->id = $id;
         $this->email = $email;

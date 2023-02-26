@@ -6,10 +6,10 @@ namespace App\Controller;
 use App\Dto\SendNotificationRequest;
 use App\Message\ProcessSendNotificationRequest;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 #[Route('/api/notifications', name: 'notifications_')]
@@ -26,6 +26,10 @@ final class NotificationsApiController extends AbstractFOSRestController
         if (count($validationErrors)) {
             return $this->json($validationErrors, Response::HTTP_BAD_REQUEST);    
         }
+
+        // TO DO:
+        // - validate only supported channels are requested
+        // - validate all fields specific for different channels are set
 
         $messageBus->dispatch(new ProcessSendNotificationRequest($request));
 

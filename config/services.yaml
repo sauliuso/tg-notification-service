@@ -6,6 +6,11 @@
 parameters:
     app.mocked_user.email: '%env(MOCKED_USER_EMAIL)%'
     app.mocked_user.phone: '%env(MOCKED_USER_PHONE_NUMBER)%'
+    app.channels_enabled: '%env(CHANNELS_ENABLED)%'
+    app.channel_providers:
+        email: '%env(CHANNEL_PROVIDERS_EMAIL)%'
+        sms: '%env(CHANNEL_PROVIDERS_SMS)%'
+        push: '%env(CHANNEL_PROVIDERS_PUSH)%'
 
 services:
     # default configuration for services in *this* file
@@ -30,3 +35,9 @@ services:
         arguments:
             - '%app.mocked_user.email%'
             - '%app.mocked_user.phone%'
+
+    App\Resolver\SupportedChannelsResolverInterface:
+        class: App\Resolver\SupportedChannelsResolver
+        arguments:
+            - '%app.channels_enabled%'
+            - '%app.channel_providers%'
