@@ -18,6 +18,9 @@ parameters:
     app.provider.twilio.account_sid: '%env(TWILIO_ACCOUNT_SID)%'
     app.provider.twilio.auth_token: '%env(TWILIO_AUTH_TOKEN)%'
     app.provider.twilio.phone_number: '%env(TWILIO_PHONE_NUMBER)%'
+    app.provider.awsses.access_key: '%env(AWS_SES_ACCESS_KEY)%'
+    app.provider.awsses.secret: '%env(AWS_SES_SECRET)%'
+    app.provider.awsses.region: '%env(AWS_SES_REGION)%'
 
 services:
     # default configuration for services in *this* file
@@ -64,3 +67,9 @@ services:
             - '%app.provider.twilio.account_sid%'
             - '%app.provider.twilio.auth_token%'
             - '%app.provider.twilio.phone_number%'
+
+    App\ServiceProvider\Adapter\AwsSesEmailAdapter:
+        arguments:
+            - '%app.provider.awsses.access_key%'
+            - '%app.provider.awsses.secret%'
+            - '%app.provider.awsses.region%'

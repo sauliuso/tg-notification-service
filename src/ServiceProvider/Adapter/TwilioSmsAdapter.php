@@ -48,7 +48,5 @@ final class TwilioSmsAdapter extends AbstractSmsAdapter
         } catch (TwilioException $e) {
             throw new AdapterException($e->getMessage(), $e->getCode(), $e);
         }
-
-        return ['result' => 'ok'];
     }
 }
