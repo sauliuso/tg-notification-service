@@ -4,10 +4,11 @@
 2. Run `docker compose build --pull --no-cache` to build fresh images
 3. Run `docker compose up` (the logs will be displayed in the current shell)
 4. Open `https://localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
-5. Run `docker compose restart worker` to restart Messenger worker
+5. Start Messenger consumer by running `docker compose exec -it php bin/console messenger:consume async`
 6. Run `docker compose down --remove-orphans` to stop the Docker containers.
 
 ## Using the service
+
 
 POST /api/notifications
 ------
@@ -24,7 +25,11 @@ POST /api/notifications
 - userId 5 will immitate user service request error
 - Higher IDs will trigger "user not found error"
 - Failing to resolve user will trigger retries
-- There are two channels implemented: email, sms
-- Email providers available: awsses, mockemail (outputs to stdout)
-- Sms providers available: twilio, mocksms (outputs to stdout), mockfailedsms (simulates service provider request error)
+- There are two channels implemented: `email`, `sms`
+- Email providers available: `awsses`, `mockemail` (outputs to stdout)
+- Sms providers available: `twilio`, `mocksms` (outputs to stdout), `mockfailedsms` (simulates service provider request error)
 
+
+GET /api/notifications/user/{userId}
+------
+Returns last 100 user's notifications, latest first.

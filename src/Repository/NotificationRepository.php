@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Notification;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -39,28 +40,27 @@ class NotificationRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Notification[] Returns an array of Notification objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('n')
-//            ->andWhere('n.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('n.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Notification
-//    {
-//        return $this->createQueryBuilder('n')
-//            ->andWhere('n.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+   /**
+    * @return Notification[]
+    */
+   public function findLastByUserAsArray(int $userId, int $limit = 100): array
+   {
+        return array_map(
+            function (Notification $notification) {
+                return [
+                    'id' => $notification->getId(),
+                    'userId' => $notification->getUserId(),
+                    'body' => $notification->getPayload()['body'] ?? '',
+                    'createdAt' => $notification->getCreatedAt()?->format(DateTime::ATOM),
+                    'status' => $notification->getStatus(),
+                    'statusMessage' => $notification->getStatusMessage(),
+                    'channel' => $notification->getChannel(),
+                    'provider' => $notification->getProvider(),
+                    'providerResponse' => $notification->getProviderResponse(),
+                    'sentAt' => (string) $notification->getSentAt()?->format(DateTime::ATOM),
+                ];
+            },
+            $this->findBy(['userId' => $userId], ['createdAt' => 'DESC'], $limit)
+        );
+   }
 }

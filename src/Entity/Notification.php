@@ -7,6 +7,7 @@ use App\Repository\NotificationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: NotificationRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Notification
 {
     public const STATUS_PENDING = 'pending';
@@ -39,6 +40,12 @@ class Notification
 
     #[ORM\Column(type: "json", nullable: true)]
     private ?array $providerResponse = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $sentAt = null;
 
     public function getId(): ?int
     {
@@ -136,6 +143,21 @@ class Notification
             ->setStatusMessage($message);
     }
 
+    public function markSent(): self
+    {
+        return $this
+            ->setStatus(self::STATUS_SENT)
+            ->setStatusMessage(null)
+            ->setSentAt(new \DateTimeImmutable());
+    }
+
+    public function markFailed(string $message): self
+    {
+        return $this
+            ->setStatus(self::STATUS_FAILED)
+            ->setStatusMessage($message);
+    }
+
     public function isPending(): bool
     {
         return $this->getStatus() === Notification::STATUS_PENDING;
@@ -144,5 +166,35 @@ class Notification
     public function isFailed(): bool
     {
         return $this->getStatus() === Notification::STATUS_FAILED;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
+    public function getSentAt(): ?\DateTimeImmutable
+    {
+        return $this->sentAt;
+    }
+
+    public function setSentAt(?\DateTimeImmutable $sentAt): self
+    {
+        $this->sentAt = $sentAt;
+
+        return $this;
     }
 }

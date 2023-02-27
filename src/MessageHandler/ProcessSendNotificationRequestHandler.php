@@ -55,7 +55,12 @@ final class ProcessSendNotificationRequestHandler
 
             $this->notificationRepository->save($notification, true);
 
-            $this->messageBus->dispatch(new SendNotificationMessage($notification->getId()));
+            $message = new SendNotificationMessage($notification->getId());
+
+            // TO DO: implement throttling processor that would delay message processing
+            // by adding DelayStamp to message.
+
+            $this->messageBus->dispatch($message);
         }
     }
 

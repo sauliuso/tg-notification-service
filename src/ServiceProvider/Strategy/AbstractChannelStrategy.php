@@ -51,14 +51,13 @@ abstract class AbstractChannelStrategy implements ChannelStrategyInterface
             $this->notification->setProvider($adapter->getProviderName());
             try {
                 $result = $adapter->send();
-                $this->notification->setStatus(Notification::STATUS_SENT);
-                $this->notification->setStatusMessage(null);
-                $this->notification->setProviderResponse($result);
+                $this->notification
+                    ->markSent()
+                    ->setProviderResponse($result);
 
                 return $result;
             } catch (AdapterException $e) {
-                $this->notification->setStatus(Notification::STATUS_FAILED);
-                $this->notification->setStatusMessage($e->getMessage());
+                $this->notification->markFailed($e->getMessage());
             }
         }
 

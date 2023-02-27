@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Dto\SendNotificationRequest;
 use App\Message\ProcessSendNotificationRequest;
+use App\Repository\NotificationRepository;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,5 +35,13 @@ final class NotificationsApiController extends AbstractFOSRestController
         $messageBus->dispatch(new ProcessSendNotificationRequest($request));
 
         return new Response();
+    }
+
+    #[Route('/user/{userId}', methods: ['GET'], name: 'get_list')]
+    public function getList(int $userId, NotificationRepository $notificationRepository): Response
+    {
+        return $this->json(
+            $notificationRepository->findLastByUserAsArray($userId)
+        );
     }
 }
