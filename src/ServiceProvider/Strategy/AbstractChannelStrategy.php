@@ -1,25 +1,28 @@
 <?php
 
-namespace App\ServiceProvider;
+namespace App\ServiceProvider\Strategy;
 
 use App\Dto\SendNotificationRequest;
 use App\Entity\Notification;
 use App\Model\User;
+use App\ServiceProvider\AdapterException;
+use App\ServiceProvider\AdapterInterface;
+use App\ServiceProvider\ChannelStrategyInterface;
 use Webmozart\Assert\Assert;
 
-abstract class AbstractServiceProviderStrategy implements ServiceProviderStrategyInterface
+abstract class AbstractChannelStrategy implements ChannelStrategyInterface
 {
-    /** @var ServiceProviderAdapterInterface[] */
+    /** @var AdapterInterface[] */
     protected array $adapters = [];
     protected User $user;
     protected SendNotificationRequest $requestDto;
     protected Notification $notification;
 
-    abstract protected function initializeAdapter(ServiceProviderAdapterInterface $adapter): void;
+    abstract protected function initializeAdapter(AdapterInterface $adapter): void;
 
     abstract public function getChannel(): string;
 
-    public function addAdapter(ServiceProviderAdapterInterface $adapter): void
+    public function addAdapter(AdapterInterface $adapter): void
     {
         $this->adapters[] = $adapter;
     }

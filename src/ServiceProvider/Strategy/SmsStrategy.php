@@ -3,12 +3,11 @@ declare(strict_types=1);
 
 namespace App\ServiceProvider\Strategy;
 
-use App\ServiceProvider\AbstractServiceProviderStrategy;
-use App\ServiceProvider\ServiceProviderAdapterInterface;
-use App\ServiceProvider\SmsServiceAdapterInterface;
+use App\ServiceProvider\AdapterInterface;
+use App\ServiceProvider\Adapter\SmsAdapterInterface;
 use Webmozart\Assert\Assert;
 
-final class SmsStrategy extends AbstractServiceProviderStrategy
+final class SmsStrategy extends AbstractChannelStrategy
 {
     private string $fromNumber;
 
@@ -22,10 +21,10 @@ final class SmsStrategy extends AbstractServiceProviderStrategy
         return 'sms';
     }
 
-    protected function initializeAdapter(ServiceProviderAdapterInterface $adapter): void
+    protected function initializeAdapter(AdapterInterface $adapter): void
     {
-        /** @var SmsServiceAdapterInterface $adapter */
-        Assert::isInstanceOf($adapter, SmsServiceAdapterInterface::class);
+        /** @var SmsAdapterInterface $adapter */
+        Assert::isInstanceOf($adapter, SmsAdapterInterface::class);
 
         $adapter->setFromNumber($this->fromNumber);
         $adapter->setToNumber($this->user->getPhoneNumber());

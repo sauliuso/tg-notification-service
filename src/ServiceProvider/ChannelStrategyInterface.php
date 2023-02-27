@@ -8,11 +8,11 @@ use App\Model\User;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
 #[AutoconfigureTag('app.service_provider.strategy')]
-interface ServiceProviderStrategyInterface
+interface ChannelStrategyInterface
 {
     public function getChannel(): string;
 
-    public function addAdapter(ServiceProviderAdapterInterface $adapter): void;
+    public function addAdapter(AdapterInterface $adapter): void;
 
     public function setUser(User $user): void;
 

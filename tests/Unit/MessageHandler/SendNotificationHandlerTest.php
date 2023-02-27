@@ -5,14 +5,14 @@ namespace AppTest\Unit\MessageHandler;
 
 use App\Dto\SendNotificationRequest;
 use App\Entity\Notification;
-use App\Factory\ServiceProviderStrategyFactoryInterface;
+use App\Factory\ChannelStrategyFactoryInterface;
 use App\Message\SendNotification;
 use App\MessageHandler\SendNotificationHandler;
 use App\Model\User;
 use App\Repository\NotificationRepository;
 use App\Resolver\SendNotificationRequestResolverInterface;
 use App\Resolver\UserResolverInterface;
-use App\ServiceProvider\ServiceProviderStrategyInterface;
+use App\ServiceProvider\ChannelStrategyInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -44,8 +44,8 @@ final class SendNotificationHandlerTest extends TestCase
             ->with(77)
             ->willReturn($user);
 
-        /** @var ServiceProviderStrategyInterface|MockObject */
-        $emailStrategy = $this->createMock(ServiceProviderStrategyInterface::class);
+        /** @var ChannelStrategyInterface|MockObject */
+        $emailStrategy = $this->createMock(ChannelStrategyInterface::class);
         $emailStrategy
             ->expects($this->once())
             ->method('send');
@@ -62,8 +62,8 @@ final class SendNotificationHandlerTest extends TestCase
             ->method('setNotification')
             ->with($notification);
 
-        /** @var ServiceProviderStrategyFactoryInterface|MockObject */
-        $strategyFactoryMock = $this->createMock(ServiceProviderStrategyFactoryInterface::class);
+        /** @var ChannelStrategyFactoryInterface|MockObject */
+        $strategyFactoryMock = $this->createMock(ChannelStrategyFactoryInterface::class);
         $strategyFactoryMock
             ->method('createForChannel')
             ->with('email')

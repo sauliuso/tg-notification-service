@@ -3,7 +3,7 @@
 namespace App\MessageHandler;
 
 use App\Entity\Notification;
-use App\Factory\ServiceProviderStrategyFactoryInterface;
+use App\Factory\ChannelStrategyFactoryInterface;
 use App\Message\SendNotification;
 use App\Model\User;
 use App\Repository\NotificationRepository;
@@ -18,14 +18,14 @@ use Webmozart\Assert\InvalidArgumentException;
 final class SendNotificationHandler implements MessageHandlerInterface
 {
     private NotificationRepository $notificationRepository;
-    private ServiceProviderStrategyFactoryInterface $strategyFactory;
+    private ChannelStrategyFactoryInterface $strategyFactory;
     private UserResolverInterface $userResolver;
     private SendNotificationRequestResolverInterface $requestDtoResolver;
     private EntityManagerInterface $entityManager;
 
     public function __construct(
         NotificationRepository $notificationRepository,
-        ServiceProviderStrategyFactoryInterface $strategyFactory,
+        ChannelStrategyFactoryInterface $strategyFactory,
         UserResolverInterface $userResolver,
         SendNotificationRequestResolverInterface $requestDtoResolver,
         EntityManagerInterface $entityManager

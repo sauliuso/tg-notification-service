@@ -1,12 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\ServiceProvider;
+namespace App\ServiceProvider\Adapter;
 
-use App\ServiceProvider\AbstractServiceProviderAdapter;
-use App\ServiceProvider\EmailServiceAdapterInterface;
-
-abstract class AbstractEmailAdapter extends AbstractServiceProviderAdapter implements EmailServiceAdapterInterface
+abstract class AbstractEmailAdapter extends AbstractAdapter implements EmailAdapterInterface
 {
     protected string $fromName;
     protected string $fromEmail;
@@ -39,27 +36,27 @@ abstract class AbstractEmailAdapter extends AbstractServiceProviderAdapter imple
         $this->subj = $subj;
     }
 
-    public function getFromName(): string
+    protected function getFromName(): string
     {
         return $this->fromName;
     }
 
-    public function getFromEmail(): string
+    protected function getFromEmail(): string
     {
         return $this->fromEmail;
     }
 
-    public function getToEmail(): string
+    protected function getToEmail(): string
     {
         return $this->toEmail;
     }
 
-    public function getBody(): string
+    protected function getBody(): string
     {
         return $this->body;
     }
 
-    public function getSubj(): string
+    protected function getSubj(): string
     {
         return $this->subj;
     }

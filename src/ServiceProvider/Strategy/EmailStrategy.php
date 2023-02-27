@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace App\ServiceProvider\Strategy;
 
-use App\ServiceProvider\AbstractServiceProviderStrategy;
-use App\ServiceProvider\EmailServiceAdapterInterface;
-use App\ServiceProvider\ServiceProviderAdapterInterface;
+use App\ServiceProvider\Adapter\EmailAdapterInterface;
+use App\ServiceProvider\AdapterInterface;
+use App\ServiceProvider\Strategy\AbstractChannelStrategy;
 use Webmozart\Assert\Assert;
 
-final class EmailStrategy extends AbstractServiceProviderStrategy
+final class EmailStrategy extends AbstractChannelStrategy
 {
     private string $fromName;
     private string $fromEmail;
@@ -26,10 +26,10 @@ final class EmailStrategy extends AbstractServiceProviderStrategy
         return 'email';
     }
 
-    protected function initializeAdapter(ServiceProviderAdapterInterface $adapter): void
+    protected function initializeAdapter(AdapterInterface $adapter): void
     {
-        /** @var EmailServiceAdapterInterface $adapter */
-        Assert::isInstanceOf($adapter, EmailServiceAdapterInterface::class);
+        /** @var EmailAdapterInterface $adapter */
+        Assert::isInstanceOf($adapter, EmailAdapterInterface::class);
 
         $adapter->setFromName($this->fromName);
         $adapter->setFromEmail($this->fromEmail);

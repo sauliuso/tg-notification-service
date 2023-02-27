@@ -6,7 +6,7 @@ namespace App\ServiceProvider;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
 #[AutoconfigureTag('app.service_provider.adapter')]
-interface ServiceProviderAdapterInterface
+interface AdapterInterface
 {
     public function initialize(): void;
 

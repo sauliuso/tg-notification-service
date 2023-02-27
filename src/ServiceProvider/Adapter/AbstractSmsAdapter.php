@@ -1,12 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\ServiceProvider;
+namespace App\ServiceProvider\Adapter;
 
-use App\ServiceProvider\AbstractServiceProviderAdapter;
-use App\ServiceProvider\SmsServiceAdapterInterface;
-
-abstract class AbstractSmsAdapter extends AbstractServiceProviderAdapter implements SmsServiceAdapterInterface
+abstract class AbstractSmsAdapter extends AbstractAdapter implements SmsAdapterInterface
 {
     protected string $fromNumber;
     protected string $toNumber;
@@ -27,17 +24,17 @@ abstract class AbstractSmsAdapter extends AbstractServiceProviderAdapter impleme
         $this->body = $text;
     }
 
-    public function getFromNumber(): string
+    protected function getFromNumber(): string
     {
         return $this->fromNumber;
     }
 
-    public function getToNumber(): string
+    protected function getToNumber(): string
     {
         return $this->toNumber;
     }
 
-    public function getBody(): string
+    protected function getBody(): string
     {
         return $this->body;
     }

@@ -3,11 +3,9 @@ declare(strict_types=1);
 
 namespace App\ServiceProvider\Adapter;
 
-use App\ServiceProvider\AbstractSmsAdapter;
 use App\ServiceProvider\AdapterException;
 use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
-use Webmozart\Assert\Assert;
 
 final class TwilioSmsAdapter extends AbstractSmsAdapter
 {

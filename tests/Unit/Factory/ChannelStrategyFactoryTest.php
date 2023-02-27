@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace AppTest\Unit\Factory;
 
-use App\Factory\ServiceProviderStrategyFactory;
+use App\Factory\ChannelStrategyFactory;
 use App\Resolver\SupportedChannelsResolverInterface;
-use App\ServiceProvider\ServiceProviderAdapterInterface;
-use App\ServiceProvider\ServiceProviderStrategyInterface;
+use App\ServiceProvider\AdapterInterface;
+use App\ServiceProvider\ChannelStrategyInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-final class ServiceProviderStrategyFactoryTest extends TestCase
+final class ChannelStrategyFactoryTest extends TestCase
 {
     public function testCorrectStrategyGetsCreatedWithAdapters(): void
     {
@@ -32,11 +32,11 @@ final class ServiceProviderStrategyFactoryTest extends TestCase
         $emailStrategyMock
             ->expects($this->exactly(2))
             ->method('addAdapter')
-            ->with($this->callback(function (ServiceProviderAdapterInterface $adapter) {
+            ->with($this->callback(function (AdapterInterface $adapter) {
                 return in_array($adapter->getProviderName(), ['emailadapter1', 'emailadapter2']);
             }));
 
-        $factory = new ServiceProviderStrategyFactory(
+        $factory = new ChannelStrategyFactory(
             [
                 $emailStrategyMock,
                 $this->createStrategyMock('sms'),
@@ -54,10 +54,10 @@ final class ServiceProviderStrategyFactoryTest extends TestCase
         $this->assertEquals($emailStrategyMock, $strategy);
     }
 
-    private function createAdapterMock(string $providerName): ServiceProviderAdapterInterface
+    private function createAdapterMock(string $providerName): AdapterInterface
     {
-        /** @var ServiceProviderAdapterInterface|MockObject */
-        $mock = $this->createMock(ServiceProviderAdapterInterface::class);
+        /** @var AdapterInterface|MockObject */
+        $mock = $this->createMock(AdapterInterface::class);
         $mock
             ->method('getProviderName')
             ->willReturn($providerName);
@@ -65,10 +65,10 @@ final class ServiceProviderStrategyFactoryTest extends TestCase
         return $mock;
     }
 
-    private function createStrategyMock(string $channel): ServiceProviderStrategyInterface
+    private function createStrategyMock(string $channel): ChannelStrategyInterface
     {
-        /** @var ServiceProviderStrategyInterface|MockObject */
-        $mock = $this->createMock(ServiceProviderStrategyInterface::class);
+        /** @var ChannelStrategyInterface|MockObject */
+        $mock = $this->createMock(ChannelStrategyInterface::class);
         $mock
             ->method('getChannel')
             ->willReturn($channel);

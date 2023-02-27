@@ -7,7 +7,7 @@ use App\Repository\NotificationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: NotificationRepository::class)]
-final class Notification
+class Notification
 {
     public const STATUS_PENDING = 'pending';
     public const STATUS_ABORTED = 'aborted';

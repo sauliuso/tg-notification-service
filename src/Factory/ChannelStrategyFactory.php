@@ -4,17 +4,17 @@ declare(strict_types=1);
 namespace App\Factory;
 
 use App\Resolver\SupportedChannelsResolverInterface;
-use App\ServiceProvider\ServiceProviderAdapterInterface;
-use App\ServiceProvider\ServiceProviderStrategyInterface;
+use App\ServiceProvider\AdapterInterface;
+use App\ServiceProvider\ChannelStrategyInterface;
 use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 use Webmozart\Assert\Assert;
 use Webmozart\Assert\InvalidArgumentException;
 
-final class ServiceProviderStrategyFactory implements ServiceProviderStrategyFactoryInterface
+final class ChannelStrategyFactory implements ChannelStrategyFactoryInterface
 {
-    /** @var ServiceProviderStrategyInterface[] */
+    /** @var ChannelStrategyInterface[] */
     private iterable $strategies;
-    /** @var ServiceProviderAdapterInterface[] */
+    /** @var AdapterInterface[] */
     private iterable $adapters;
     private SupportedChannelsResolverInterface $supportedChannelsResolver;
 
@@ -32,7 +32,7 @@ final class ServiceProviderStrategyFactory implements ServiceProviderStrategyFac
     /**
      * @throws InvalidArgumentException
      */
-    public function createForChannel(string $channel): ServiceProviderStrategyInterface
+    public function createForChannel(string $channel): ChannelStrategyInterface
     {
         $strategy = $this->resolveStrategy($channel);
 
@@ -44,7 +44,7 @@ final class ServiceProviderStrategyFactory implements ServiceProviderStrategyFac
         return $strategy;
     }
 
-    private function resolveStrategy(string $channel): ServiceProviderStrategyInterface
+    private function resolveStrategy(string $channel): ChannelStrategyInterface
     {
         foreach ($this->strategies as $strategy) {
             if ($strategy->getChannel() === $channel) {
